@@ -506,24 +506,46 @@ LIMIT $%d OFFSET $%d
 				forks = *forksCount
 			}
 
-			// Fetch fresh data from GitHub if stars/forks are 0 or nil (best effort)
-			// This ensures we have up-to-date metrics even if webhook sync hasn't run yet
-			if stars == 0 || forks == 0 {
-				if repo, err := gh.GetRepo(ctx, "", fullName); err == nil {
-					// Prefer live counts from GitHub if available
-					if repo.StargazersCount > 0 {
-						stars = repo.StargazersCount
-					}
-					if repo.ForksCount > 0 {
-						forks = repo.ForksCount
-					}
-					// Best-effort persist (non-blocking)
+			// Get repo description from GitHub (best effort)
+			var description string
+			if repo, err := gh.GetRepo(ctx, "", fullName); err == nil {
+				description = repo.Description
+				// If stars or forks are 0, update them from GitHub
+				if stars == 0 {
+					stars = repo.StargazersCount
+				}
+				if forks == 0 {
+					forks = repo.ForksCount
+				}
+				// Best-effort persist (non-blocking)
+				if stars > 0 || forks > 0 {
 					go func(projectID uuid.UUID, st, fk int) {
 						_, _ = h.db.Pool.Exec(context.Background(), `
 UPDATE projects SET stars_count=$2, forks_count=$3, updated_at=now()
 WHERE id=$1
 `, projectID, st, fk)
 					}(id, stars, forks)
+				}
+			} else {
+				// If GitHub fetch fails, try to fetch fresh data in background
+				if stars == 0 || forks == 0 {
+					go func(projectID uuid.UUID, projectFullName string) {
+						ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+						defer cancel()
+						gh := github.NewClient()
+						if r, err := gh.GetRepo(ctx, "", projectFullName); err == nil {
+							slog.Info("fetched fresh stars/forks from GitHub for project", "project_id", projectID, "full_name", projectFullName, "stars", r.StargazersCount, "forks", r.ForksCount)
+							_, err := h.db.Pool.Exec(ctx, `
+UPDATE projects SET stars_count=$2, forks_count=$3, updated_at=now()
+WHERE id=$1
+`, projectID, r.StargazersCount, r.ForksCount)
+							if err != nil {
+								slog.Warn("failed to persist fresh stars/forks for project", "project_id", projectID, "error", err)
+							}
+						} else {
+							slog.Warn("failed to fetch fresh stars/forks from GitHub for project", "project_id", projectID, "full_name", projectFullName, "error", err)
+						}
+					}(id, fullName)
 				}
 			}
 
@@ -540,6 +562,7 @@ WHERE id=$1
 				"open_prs_count":     openPRsCount,
 				"ecosystem_name":  ecosystemName,
 				"ecosystem_slug":  ecosystemSlug,
+				"description":     description,
 				"created_at":      createdAt,
 				"updated_at":      updatedAt,
 			})

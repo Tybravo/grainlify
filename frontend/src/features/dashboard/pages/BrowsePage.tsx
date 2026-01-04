@@ -43,6 +43,23 @@ const getProjectColor = (name: string): string => {
   return colors[hash % colors.length];
 };
 
+// Helper function to truncate description to first line or first 80 characters
+const truncateDescription = (description: string | undefined | null, maxLength: number = 80): string => {
+  if (!description || description.trim() === '') {
+    return '';
+  }
+  
+  // Get first line
+  const firstLine = description.split('\n')[0].trim();
+  
+  // If first line is longer than maxLength, truncate it
+  if (firstLine.length > maxLength) {
+    return firstLine.substring(0, maxLength).trim() + '...';
+  }
+  
+  return firstLine;
+};
+
 export function BrowsePage({ onProjectClick }: BrowsePageProps) {
   const { theme } = useTheme();
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -167,7 +184,7 @@ export function BrowsePage({ onProjectClick }: BrowsePageProps) {
               contributors: p.contributors_count || 0,
               openIssues: p.open_issues_count || 0,
               prs: p.open_prs_count || 0,
-              description: `${p.language || 'Project'} repository${p.category ? ` - ${p.category}` : ''}`,
+              description: truncateDescription(p.description) || `${p.language || 'Project'} repository${p.category ? ` - ${p.category}` : ''}`,
               tags: Array.isArray(p.tags) ? p.tags : [],
               color: getProjectColor(repoName),
             };

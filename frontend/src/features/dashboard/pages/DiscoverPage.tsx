@@ -40,6 +40,23 @@ const getProjectColor = (name: string): string => {
   return colors[hash % colors.length];
 };
 
+// Helper function to truncate description to first line or first 80 characters
+const truncateDescription = (description: string | undefined | null, maxLength: number = 80): string => {
+  if (!description || description.trim() === '') {
+    return '';
+  }
+  
+  // Get first line
+  const firstLine = description.split('\n')[0].trim();
+  
+  // If first line is longer than maxLength, truncate it
+  if (firstLine.length > maxLength) {
+    return firstLine.substring(0, maxLength).trim() + '...';
+  }
+  
+  return firstLine;
+};
+
 // Helper function to calculate days left (mock for now, can be enhanced with actual dates)
 const getDaysLeft = (): string => {
   const days = Math.floor(Math.random() * 10) + 1;
@@ -120,7 +137,7 @@ export function DiscoverPage() {
             stars: formatNumber(p.stars_count || 0),
             forks: formatNumber(p.forks_count || 0),
             issues: p.open_issues_count || 0,
-            description: p.description || `${p.language || 'Project'} repository${p.category ? ` - ${p.category}` : ''}`,
+            description: truncateDescription(p.description) || `${p.language || 'Project'} repository${p.category ? ` - ${p.category}` : ''}`,
             tags: Array.isArray(p.tags) ? p.tags.slice(0, 2) : [],
             color: getProjectColor(repoName),
           };

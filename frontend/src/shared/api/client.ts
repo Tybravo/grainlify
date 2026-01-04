@@ -191,6 +191,7 @@ export const getPublicProjects = (params?: {
       open_prs_count: number;
       ecosystem_name: string | null;
       ecosystem_slug: string | null;
+      description?: string;
       created_at: string;
       updated_at: string;
     }>;
