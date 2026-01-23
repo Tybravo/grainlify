@@ -607,9 +607,13 @@ export const getProjectLeaderboard = (limit = 10, offset = 0, ecosystem?: string
   const params = new URLSearchParams();
   params.append('limit', limit.toString());
   params.append('offset', offset.toString());
-  if (ecosystem && ecosystem !== 'All Ecosystems') {
+  if (ecosystem && ecosystem !== 'all') {
     params.append('ecosystem', ecosystem);
   }
+  
+  const queryString = params.toString();
+  const endpoint = queryString ? `/leaderboard/projects?${queryString}` : '/leaderboard/projects';
+  
   return apiRequest<Array<{
     rank: number;
     name: string;
@@ -622,7 +626,7 @@ export const getProjectLeaderboard = (limit = 10, offset = 0, ecosystem?: string
     ecosystems: string[];
     activity: string;
     project_id: string;
-  }>>(`/leaderboard/projects?${params.toString()}`);
+  }>>(endpoint);
 };
 
 // Admin Bootstrap

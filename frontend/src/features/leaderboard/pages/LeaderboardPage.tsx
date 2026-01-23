@@ -71,7 +71,9 @@ export function LeaderboardPage() {
           if (selectedEcosystem.value !== 'all') {
             ecosystemFilter = selectedEcosystem.value;
           }
+          console.log('Fetching project leaderboard with filter:', ecosystemFilter);
           const data = await getProjectLeaderboard(100, 0, ecosystemFilter);
+          console.log('Project leaderboard data received:', data);
           // Transform API data to match ProjectData type
           const transformedData: ProjectData[] = data.map((item) => ({
             rank: item.rank,
