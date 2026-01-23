@@ -114,6 +114,97 @@ export function ProfileTab() {
   const validateBio = (value: string) =>
     value.length > MAX_BIO_LENGTH ? "Bio cannot exceed 500 characters" : "";
 
+  // Validation state
+  const [errors, setErrors] = useState<{
+    telegram?: string;
+    linkedin?: string;
+    whatsapp?: string;
+    twitter?: string;
+    discord?: string;
+  }>({});
+
+  const validateHandle = (platform: string, value: string): string | undefined => {
+    if (!value) return undefined;
+
+    // Common checks
+    if (value.startsWith('http') || value.startsWith('www.')) {
+      return 'Please enter only the handle, not a URL';
+    }
+    if (value.startsWith('@')) {
+      return 'Please remove the @ symbol';
+    }
+
+    switch (platform) {
+      case 'telegram':
+        // Alphanumeric and underscores, 5-32 chars
+        if (!/^[a-zA-Z0-9_]{5,32}$/.test(value)) {
+          return 'Handle must be 5-32 characters (letters, numbers, underscores)';
+        }
+        break;
+      case 'twitter':
+        // Alphanumeric and underscores, 1-15 chars
+        if (!/^[a-zA-Z0-9_]{1,15}$/.test(value)) {
+          return 'Handle must be 1-15 characters (letters, numbers, underscores)';
+        }
+        break;
+      case 'linkedin':
+        // Alphanumeric and hyphens, 3-100 chars
+        if (!/^[a-zA-Z0-9-]{3,100}$/.test(value)) {
+          return 'Handle must be 3-100 characters (letters, numbers, hyphens)';
+        }
+        break;
+      case 'discord':
+        // username#1234 or new username format (2-32 chars, limited special chars)
+        if (!/^(.+#[0-9]{4}|[a-z0-9_.]{2,32})$/.test(value)) {
+          return 'Invalid Discord username format';
+        }
+        break;
+      case 'whatsapp':
+        // Basic phone validation or username
+        if (!/^(\+?[0-9]{7,15}|[a-zA-Z0-9_]{1,32})$/.test(value)) {
+          return 'Invalid phone number or handle format';
+        }
+        break;
+    }
+    return undefined;
+  };
+
+  const handleInputChange = (platform: string, value: string, setter: (val: string) => void) => {
+    // Robust extraction logic
+    let sanitizedValue = value;
+
+    // 1. Remove protocol (http://, https://)
+    sanitizedValue = sanitizedValue.replace(/^https?:\/\//, '');
+
+    // 2. Remove domain and everything before the username path
+    // Matches common domains like www.linkedin.com/in/, twitter.com/, etc.
+    // Also matches generic domains if followed by a slash
+    sanitizedValue = sanitizedValue.replace(/^(?:www\.)?(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}\/(?:in\/|user\/|@\/)?/, '');
+
+    // 3. Remove generic prefixes if they weren't part of a domain
+    // e.g. /in/username, @username
+    sanitizedValue = sanitizedValue.replace(/^@/, '');
+    sanitizedValue = sanitizedValue.replace(/^\//, '');
+
+    // 4. Extract the last segment if there are still slashes (e.g. some/path/username)
+    if (sanitizedValue.includes('/')) {
+      const parts = sanitizedValue.split('/').filter(part => part.length > 0);
+      if (parts.length > 0) {
+        sanitizedValue = parts[parts.length - 1];
+      }
+    }
+
+    // 5. Remove any trailing slash (just in case)
+    sanitizedValue = sanitizedValue.replace(/\/$/, '');
+
+    setter(sanitizedValue);
+    const error = validateHandle(platform, sanitizedValue);
+    setErrors(prev => ({
+      ...prev,
+      [platform]: error
+    }));
+  };
+
   useEffect(() => {
     const fetchUser = async () => {
       setIsLoading(true);
@@ -710,7 +801,7 @@ export function ProfileTab() {
               <input
                 type="text"
                 value={telegram}
-                onChange={(e) => setTelegram(e.target.value)}
+                onChange={(e) => handleInputChange('telegram', e.target.value, setTelegram)}
                 placeholder="Enter your telegram handle"
                 className={`w-full px-4 py-3 pr-10 rounded-[14px] backdrop-blur-[30px] border focus:outline-none focus:bg-white/[0.2] focus:border-[#c9983a]/30 transition-all text-[14px] ${
                   theme === "dark"
@@ -724,6 +815,9 @@ export function ProfileTab() {
                 }`}
               />
             </div>
+            {errors.telegram && (
+              <p className="mt-1 text-[12px] text-red-500">{errors.telegram}</p>
+            )}
           </div>
 
           {/* LinkedIn */}
@@ -739,7 +833,7 @@ export function ProfileTab() {
               <input
                 type="text"
                 value={linkedin}
-                onChange={(e) => setLinkedin(e.target.value)}
+                onChange={(e) => handleInputChange('linkedin', e.target.value, setLinkedin)}
                 placeholder="Enter your linkedin handle"
                 className={`w-full px-4 py-3 pr-10 rounded-[14px] backdrop-blur-[30px] border focus:outline-none focus:bg-white/[0.2] focus:border-[#c9983a]/30 transition-all text-[14px] ${
                   theme === "dark"
@@ -753,6 +847,9 @@ export function ProfileTab() {
                 }`}
               />
             </div>
+            {errors.linkedin && (
+              <p className="mt-1 text-[12px] text-red-500">{errors.linkedin}</p>
+            )}
           </div>
 
           {/* WhatsApp */}
@@ -768,7 +865,7 @@ export function ProfileTab() {
               <input
                 type="text"
                 value={whatsapp}
-                onChange={(e) => setWhatsapp(e.target.value)}
+                onChange={(e) => handleInputChange('whatsapp', e.target.value, setWhatsapp)}
                 placeholder="Enter your whatsApp handle"
                 className={`w-full px-4 py-3 pr-10 rounded-[14px] backdrop-blur-[30px] border focus:outline-none focus:bg-white/[0.2] focus:border-[#c9983a]/30 transition-all text-[14px] ${
                   theme === "dark"
@@ -782,6 +879,9 @@ export function ProfileTab() {
                 }`}
               />
             </div>
+            {errors.whatsapp && (
+              <p className="mt-1 text-[12px] text-red-500">{errors.whatsapp}</p>
+            )}
           </div>
 
           {/* Twitter */}
@@ -797,7 +897,7 @@ export function ProfileTab() {
               <input
                 type="text"
                 value={twitter}
-                onChange={(e) => setTwitter(e.target.value)}
+                onChange={(e) => handleInputChange('twitter', e.target.value, setTwitter)}
                 placeholder="Enter your twitter handle"
                 className={`w-full px-4 py-3 pr-10 rounded-[14px] backdrop-blur-[30px] border focus:outline-none focus:bg-white/[0.2] focus:border-[#c9983a]/30 transition-all text-[14px] ${
                   theme === "dark"
@@ -811,6 +911,9 @@ export function ProfileTab() {
                 }`}
               />
             </div>
+            {errors.twitter && (
+              <p className="mt-1 text-[12px] text-red-500">{errors.twitter}</p>
+            )}
           </div>
 
           {/* Discord - Full Width */}
@@ -826,7 +929,7 @@ export function ProfileTab() {
               <input
                 type="text"
                 value={discord}
-                onChange={(e) => setDiscord(e.target.value)}
+                onChange={(e) => handleInputChange('discord', e.target.value, setDiscord)}
                 placeholder="Enter your discord handle"
                 className={`w-full px-4 py-3 pr-10 rounded-[14px] backdrop-blur-[30px] border focus:outline-none focus:bg-white/[0.2] focus:border-[#c9983a]/30 transition-all text-[14px] ${
                   theme === "dark"
@@ -840,6 +943,9 @@ export function ProfileTab() {
                 }`}
               />
             </div>
+            {errors.discord && (
+              <p className="mt-1 text-[12px] text-red-500">{errors.discord}</p>
+            )}
           </div>
         </div>
       </div>
