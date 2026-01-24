@@ -5,10 +5,12 @@ import { useEffect , useState} from 'react';
 interface RoleSwitcherProps {
   currentRole: 'contributor' | 'maintainer' | 'admin';
   onRoleChange: (role: 'contributor' | 'maintainer' | 'admin') => void;
-  isSmallDevice?: boolean;
+  showMobileNav: boolean;
+  isSmallDevice: boolean;
+  closeMobileNav:()=>void
 }
 
-export function RoleSwitcher({ currentRole, onRoleChange , isSmallDevice}: RoleSwitcherProps) {
+export function RoleSwitcher({ currentRole, onRoleChange , showMobileNav , isSmallDevice, closeMobileNav}: RoleSwitcherProps) {
   const { theme } = useTheme();
 
   const roles = [
@@ -31,11 +33,13 @@ export function RoleSwitcher({ currentRole, onRoleChange , isSmallDevice}: RoleS
 
   return (
     <div 
-      className={`inline-flex gap-[1px] h-[44px] items-start p-[2px] rounded-[10px] lg:rounded-[999px] shadow-[0px_6px_6.5px_-1px_rgba(0,0,0,0.36),0px_0px_4.2px_0px_rgba(0,0,0,0.69)] ${
+      className={`w-[80%] lg:w-auto max-w-[800px] lg:max-w-none flex-col lg:flex-row gap-[8px] lg:gap-[2px] lg:h-[44px] items-start p-[2px] rounded-[10px] lg:rounded-[999px] shadow-[0px_6px_6.5px_-1px_rgba(0,0,0,0.36),0px_0px_4.2px_0px_rgba(0,0,0,0.69)] ${
         theme === 'dark'
           ? 'bg-[#1a1612]'
           : 'bg-[#8b7d6b]'
-      }`}
+      }
+      ${showMobileNav? 'inline-flex' : 'hidden lg:inline-flex'}
+      `}
     >
       {roles.map((role, index) => {
         const Icon = role.icon;
@@ -46,8 +50,8 @@ export function RoleSwitcher({ currentRole, onRoleChange , isSmallDevice}: RoleS
         return (
           <button
             key={role.id}
-            onClick={() => onRoleChange(role.id)}
-            className={`h-[40px] relative shrink-0 w-min lg:w-[130px] px-3 ${
+            onClick={() => {onRoleChange(role.id); closeMobileNav();}}
+            className={`h-[40px] relative shrink-0 w-full lg:w-[130px] px-3 ${
               isFirst ? 'rounded-bl-[10px] lg:rounded-bl-[20px] rounded-br-[4px] rounded-tl-[10px] lg:rounded-tl-[20px] rounded-tr-[4px] ' :
               isLast ? 'rounded-bl-[4px] rounded-br-[10px] lg:rounded-br-[20px] rounded-tl-[4px] rounded-tr-[10px] lg:rounded-tr-[20px]' :
               'rounded-[4px]'
@@ -72,12 +76,12 @@ export function RoleSwitcher({ currentRole, onRoleChange , isSmallDevice}: RoleS
               <Icon className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${
                 isActive ? '' : 'opacity-80'
               }`} />
-              {!isSmallDevice&&
+              
               <span className={`text-[11px] font-medium leading-[0] tracking-wide ${
                 isActive ? 'text-shadow-[0px_1px_2px_rgba(0,0,0,0.3)]' : 'text-shadow-[0px_1px_0px_rgba(0,0,0,0.19)]'
               }`}>
                 {role.label}
-              </span>}
+              </span>
             </div>
 
             {/* Lock Badge for Admin - Restricted Access Indicator */}

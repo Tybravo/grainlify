@@ -8,7 +8,11 @@ import {
   DropdownMenuTrigger,
 } from "../../app/components/ui/dropdown-menu";
 
-export function NotificationsDropdown() {
+interface NotificationsDropdownProp {
+     showMobileNav: boolean; 
+     closeMobileNav:() => void; 
+}
+export function NotificationsDropdown({showMobileNav}:NotificationsDropdownProp) {
   const { theme } = useTheme();
   const darkTheme = theme === "dark";
   const [notificationCount, setNotificationCount] = useState(0);
@@ -41,9 +45,10 @@ export function NotificationsDropdown() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button
-          className={`w-[25px] h-[25px] lg:h-[46px] lg:w-[46px] rounded-full relative flex items-center justify-center backdrop-blur-[40px] transition-all hover:scale-105 shadow-[0px_6px_6.5px_-1px_rgba(0,0,0,0.36),0px_0px_4.2px_0px_rgba(0,0,0,0.69)] ${
-            darkTheme ? "bg-[#2d2820]" : "bg-[#d4c5b0]"
-          }`}
+          className={`h-[46px] w-[46px] rounded-full relative items-center justify-center backdrop-blur-[40px] transition-all hover:scale-105 shadow-[0px_6px_6.5px_-1px_rgba(0,0,0,0.36),0px_0px_4.2px_0px_rgba(0,0,0,0.69)] ${
+            darkTheme ? "bg-[#2d2820] " : "bg-[#d4c5b0] "
+          }
+          ${showMobileNav ? "flex w-[80%] max-w-[800px] rounded-sm" : "hidden lg:flex"}`}
         >
           <div
             className={`absolute inset-0 pointer-events-none rounded-full ${
@@ -59,7 +64,11 @@ export function NotificationsDropdown() {
                 : "text-[rgba(45,40,32,0.75)]"
             }`}
           />
-
+  {
+          showMobileNav && <span className={`ml-2 ${darkTheme ? 'text-[#e8dfd0]' : 'text-[#2d2820]'}`}>
+          Notification
+          </span>
+               }
           {/* Notification Count Badge - Only show when count > 0 */}
           {notificationCount > 0 && (
             <div className="absolute -top-0.5 -right-0.5 lg:-top-1 lg:-right-1 w-2 h-2 lg:min-w-[18px] lg:h-[18px] px-1 bg-gradient-to-br from-[#e8c571] to-[#c9983a] rounded-full shadow-[0_2px_8px_rgba(201,152,58,0.9),0_0_12px_rgba(201,152,58,0.7)] z-20 border-[2px] border-white flex items-center justify-center">
