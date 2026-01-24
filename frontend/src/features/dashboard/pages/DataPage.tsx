@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { ChevronDown, Info } from 'lucide-react';
-import { BarChart, Bar, LineChart, Line as RechartsLine, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ComposedChart } from 'recharts';
+import { Bar, Line as RechartsLine, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ComposedChart } from 'recharts';
 import { ComposableMap, Geographies, Geography, Marker, ZoomableGroup, Line as MapLine } from "react-simple-maps";
 import { useTheme } from '../../../shared/contexts/ThemeContext';
 
@@ -117,44 +117,44 @@ export function DataPage() {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (
-        <div className="backdrop-blur-[30px] bg-[#1a1410]/95 border-2 border-white/20 rounded-[12px] px-5 py-4 min-w-[200px]">
-          <p className="text-[13px] font-bold text-white mb-3">{data.month} 2025</p>
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-[#c9983a]" />
-                <span className="text-[12px] text-white/80">New</span>
+        <div className="backdrop-blur-[30px] bg-[#1a1410]/95 border-2 border-white/20 rounded-[10px] md:rounded-[12px] px-3 md:px-5 py-3 md:py-4 min-w-[160px] md:min-w-[200px] max-w-[90vw]">
+          <p className="text-[11px] md:text-[13px] font-bold text-white mb-2 md:mb-3">{data.month} 2025</p>
+          <div className="space-y-1.5 md:space-y-2">
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-1.5 md:gap-2">
+                <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-[#c9983a] flex-shrink-0" />
+                <span className="text-[10px] md:text-[12px] text-white/80">New</span>
               </div>
-              <span className="text-[13px] font-bold text-[#c9983a]">{data.new}</span>
+              <span className="text-[11px] md:text-[13px] font-bold text-[#c9983a] flex-shrink-0">{data.new}</span>
             </div>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-[#d4af37]" />
-                <span className="text-[12px] text-white/80">Reactivated</span>
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-1.5 md:gap-2">
+                <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-[#d4af37] flex-shrink-0" />
+                <span className="text-[10px] md:text-[12px] text-white/80">Reactivated</span>
               </div>
-              <span className="text-[13px] font-bold text-[#d4af37]">{data.reactivated}</span>
+              <span className="text-[11px] md:text-[13px] font-bold text-[#d4af37] flex-shrink-0">{data.reactivated}</span>
             </div>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-[#c9983a]/70" />
-                <span className="text-[12px] text-white/80">Active</span>
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-1.5 md:gap-2">
+                <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-[#c9983a]/70 flex-shrink-0" />
+                <span className="text-[10px] md:text-[12px] text-white/80">Active</span>
               </div>
-              <span className="text-[13px] font-bold text-[#c9983a]/90">{data.active}</span>
+              <span className="text-[11px] md:text-[13px] font-bold text-[#c9983a]/90 flex-shrink-0">{data.active}</span>
             </div>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-[#ff6b6b]" />
-                <span className="text-[12px] text-white/80">Churned</span>
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-1.5 md:gap-2">
+                <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-[#ff6b6b] flex-shrink-0" />
+                <span className="text-[10px] md:text-[12px] text-white/80">Churned</span>
               </div>
-              <span className="text-[13px] font-bold text-[#ff6b6b]">{data.churned}</span>
+              <span className="text-[11px] md:text-[13px] font-bold text-[#ff6b6b] flex-shrink-0">{data.churned}</span>
             </div>
-            <div className="h-px bg-white/10 my-2" />
-            <div className="flex items-center justify-between pt-1">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-gradient-to-r from-[#c9983a] to-[#d4af37]" />
-                <span className="text-[12px] text-white/80">Rewarded</span>
+            <div className="h-px bg-white/10 my-1.5 md:my-2" />
+            <div className="flex items-center justify-between gap-2 pt-0.5 md:pt-1">
+              <div className="flex items-center gap-1.5 md:gap-2">
+                <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-gradient-to-r from-[#c9983a] to-[#d4af37] flex-shrink-0" />
+                <span className="text-[10px] md:text-[12px] text-white/80">Rewarded</span>
               </div>
-              <span className="text-[13px] font-bold text-white">{data.rewarded.toLocaleString()} USD</span>
+              <span className="text-[11px] md:text-[13px] font-bold text-white flex-shrink-0">{data.rewarded.toLocaleString()} USD</span>
             </div>
           </div>
         </div>
@@ -222,7 +222,7 @@ export function DataPage() {
             <div className="relative">
               <button
                 onClick={() => setShowProjectIntervalDropdown(!showProjectIntervalDropdown)}
-                className="flex items-center gap-2 px-3 md:px-4 py-2 rounded-[8px] md:rounded-[10px] backdrop-blur-[20px] bg-white/[0.15] border border-white/25 hover:bg-white/[0.2] transition-all w-full sm:w-auto touch-manipulation"
+                className="flex items-center gap-2 px-3 md:px-4 py-2 rounded-[8px] md:rounded-[10px] backdrop-blur-[20px] bg-white/[0.15] border border-white/25 hover:bg-white/[0.2] active:bg-white/[0.25] transition-all w-full sm:w-auto touch-manipulation min-h-[44px]"
               >
                 <span className={`text-[12px] md:text-[13px] font-semibold transition-colors ${
                   theme === 'dark' ? 'text-[#f5f5f5]' : 'text-[#2d2820]'
@@ -315,7 +315,7 @@ export function DataPage() {
                     radius={[8, 8, 0, 0]}
                     maxBarSize={isMobile ? 30 : 40}
                   />
-                  <Line 
+                  <RechartsLine 
                     type="monotone" 
                     dataKey="trend" 
                     stroke="#2d2820" 
@@ -331,50 +331,50 @@ export function DataPage() {
           <div className="flex flex-wrap items-center gap-2">
             <button
               onClick={() => toggleProjectFilter('new')}
-              className={`px-3 md:px-4 py-2 rounded-[8px] md:rounded-[10px] text-[12px] md:text-[13px] font-semibold transition-all touch-manipulation ${
+              className={`px-3 md:px-4 py-2 rounded-[8px] md:rounded-[10px] text-[12px] md:text-[13px] font-semibold transition-all touch-manipulation min-h-[44px] ${
                 projectFilters.new
-                  ? 'bg-[#c9983a] text-white shadow-[0_3px_12px_rgba(201,152,58,0.3)]'
-                  : 'backdrop-blur-[20px] bg-white/[0.15] border border-white/25 text-[#2d2820] hover:bg-white/[0.2]'
+                  ? 'bg-[#c9983a] text-white shadow-[0_3px_12px_rgba(201,152,58,0.3)] active:bg-[#a67c2e]'
+                  : 'backdrop-blur-[20px] bg-white/[0.15] border border-white/25 text-[#2d2820] hover:bg-white/[0.2] active:bg-white/[0.25]'
                 }`}
             >
               New
             </button>
             <button
               onClick={() => toggleProjectFilter('reactivated')}
-              className={`px-3 md:px-4 py-2 rounded-[8px] md:rounded-[10px] text-[12px] md:text-[13px] font-semibold transition-all touch-manipulation ${
+              className={`px-3 md:px-4 py-2 rounded-[8px] md:rounded-[10px] text-[12px] md:text-[13px] font-semibold transition-all touch-manipulation min-h-[44px] ${
                 projectFilters.reactivated
-                  ? 'bg-[#c9983a] text-white shadow-[0_3px_12px_rgba(201,152,58,0.3)]'
-                  : 'backdrop-blur-[20px] bg-white/[0.15] border border-white/25 text-[#2d2820] hover:bg-white/[0.2]'
+                  ? 'bg-[#c9983a] text-white shadow-[0_3px_12px_rgba(201,152,58,0.3)] active:bg-[#a67c2e]'
+                  : 'backdrop-blur-[20px] bg-white/[0.15] border border-white/25 text-[#2d2820] hover:bg-white/[0.2] active:bg-white/[0.25]'
                 }`}
             >
               Reactivated
             </button>
             <button
               onClick={() => toggleProjectFilter('active')}
-              className={`px-3 md:px-4 py-2 rounded-[8px] md:rounded-[10px] text-[12px] md:text-[13px] font-semibold transition-all touch-manipulation ${
+              className={`px-3 md:px-4 py-2 rounded-[8px] md:rounded-[10px] text-[12px] md:text-[13px] font-semibold transition-all touch-manipulation min-h-[44px] ${
                 projectFilters.active
-                  ? 'bg-[#c9983a] text-white shadow-[0_3px_12px_rgba(201,152,58,0.3)]'
-                  : 'backdrop-blur-[20px] bg-white/[0.15] border border-white/25 text-[#2d2820] hover:bg-white/[0.2]'
+                  ? 'bg-[#c9983a] text-white shadow-[0_3px_12px_rgba(201,152,58,0.3)] active:bg-[#a67c2e]'
+                  : 'backdrop-blur-[20px] bg-white/[0.15] border border-white/25 text-[#2d2820] hover:bg-white/[0.2] active:bg-white/[0.25]'
                 }`}
             >
               Active
             </button>
             <button
               onClick={() => toggleProjectFilter('churned')}
-              className={`px-3 md:px-4 py-2 rounded-[8px] md:rounded-[10px] text-[12px] md:text-[13px] font-semibold transition-all touch-manipulation ${
+              className={`px-3 md:px-4 py-2 rounded-[8px] md:rounded-[10px] text-[12px] md:text-[13px] font-semibold transition-all touch-manipulation min-h-[44px] ${
                 projectFilters.churned
-                  ? 'bg-[#c9983a] text-white shadow-[0_3px_12px_rgba(201,152,58,0.3)]'
-                  : 'backdrop-blur-[20px] bg-white/[0.15] border border-white/25 text-[#2d2820] hover:bg-white/[0.2]'
+                  ? 'bg-[#c9983a] text-white shadow-[0_3px_12px_rgba(201,152,58,0.3)] active:bg-[#a67c2e]'
+                  : 'backdrop-blur-[20px] bg-white/[0.15] border border-white/25 text-[#2d2820] hover:bg-white/[0.2] active:bg-white/[0.25]'
                 }`}
             >
               Churned
             </button>
             <button
               onClick={() => toggleProjectFilter('prMerged')}
-              className={`px-3 md:px-4 py-2 rounded-[8px] md:rounded-[10px] text-[12px] md:text-[13px] font-semibold transition-all touch-manipulation ${
+              className={`px-3 md:px-4 py-2 rounded-[8px] md:rounded-[10px] text-[12px] md:text-[13px] font-semibold transition-all touch-manipulation min-h-[44px] ${
                 projectFilters.prMerged
-                  ? 'bg-[#c9983a] text-white shadow-[0_3px_12px_rgba(201,152,58,0.3)]'
-                  : 'backdrop-blur-[20px] bg-white/[0.15] border border-white/25 text-[#2d2820] hover:bg-white/[0.2]'
+                  ? 'bg-[#c9983a] text-white shadow-[0_3px_12px_rgba(201,152,58,0.3)] active:bg-[#a67c2e]'
+                  : 'backdrop-blur-[20px] bg-white/[0.15] border border-white/25 text-[#2d2820] hover:bg-white/[0.2] active:bg-white/[0.25]'
                 }`}
             >
               PR merged
@@ -428,14 +428,14 @@ export function DataPage() {
                 <ZoomableGroup
                   zoom={mapZoom}
                   center={mapCenter}
-                  onMoveEnd={({ coordinates, zoom }) => {
-                    setMapCenter(coordinates as [number, number]);
+                  onMoveEnd={({ coordinates, zoom }: { coordinates: [number, number]; zoom: number }) => {
+                    setMapCenter(coordinates);
                     setMapZoom(zoom);
                   }}
                 >
                   <Geographies geography={geoUrl}>
-                    {({ geographies }) =>
-                      geographies.map((geo) => {
+                    {({ geographies }: { geographies: any[] }) =>
+                      geographies.map((geo: any) => {
                         const isHighlighted = Object.keys(countryCoordinates).some(country =>
                           geo.properties.name === country ||
                           (country === "United Kingdom" && geo.properties.name === "United Kingdom") || // Add aliases if needed
@@ -641,7 +641,7 @@ export function DataPage() {
                     radius={[8, 8, 0, 0]}
                     maxBarSize={isMobile ? 30 : 40}
                   />
-                  <Line 
+                  <RechartsLine 
                     type="monotone" 
                     dataKey="trend" 
                     stroke="#2d2820" 
@@ -657,50 +657,50 @@ export function DataPage() {
           <div className="flex flex-wrap items-center gap-2">
             <button
               onClick={() => toggleContributorFilter('new')}
-              className={`px-3 md:px-4 py-2 rounded-[8px] md:rounded-[10px] text-[12px] md:text-[13px] font-semibold transition-all touch-manipulation ${
+              className={`px-3 md:px-4 py-2 rounded-[8px] md:rounded-[10px] text-[12px] md:text-[13px] font-semibold transition-all touch-manipulation min-h-[44px] ${
                 contributorFilters.new
-                  ? 'bg-[#c9983a] text-white shadow-[0_3px_12px_rgba(201,152,58,0.3)]'
-                  : 'backdrop-blur-[20px] bg-white/[0.15] border border-white/25 text-[#2d2820] hover:bg-white/[0.2]'
+                  ? 'bg-[#c9983a] text-white shadow-[0_3px_12px_rgba(201,152,58,0.3)] active:bg-[#a67c2e]'
+                  : 'backdrop-blur-[20px] bg-white/[0.15] border border-white/25 text-[#2d2820] hover:bg-white/[0.2] active:bg-white/[0.25]'
                 }`}
             >
               New
             </button>
             <button
               onClick={() => toggleContributorFilter('reactivated')}
-              className={`px-3 md:px-4 py-2 rounded-[8px] md:rounded-[10px] text-[12px] md:text-[13px] font-semibold transition-all touch-manipulation ${
+              className={`px-3 md:px-4 py-2 rounded-[8px] md:rounded-[10px] text-[12px] md:text-[13px] font-semibold transition-all touch-manipulation min-h-[44px] ${
                 contributorFilters.reactivated
-                  ? 'bg-[#c9983a] text-white shadow-[0_3px_12px_rgba(201,152,58,0.3)]'
-                  : 'backdrop-blur-[20px] bg-white/[0.15] border border-white/25 text-[#2d2820] hover:bg-white/[0.2]'
+                  ? 'bg-[#c9983a] text-white shadow-[0_3px_12px_rgba(201,152,58,0.3)] active:bg-[#a67c2e]'
+                  : 'backdrop-blur-[20px] bg-white/[0.15] border border-white/25 text-[#2d2820] hover:bg-white/[0.2] active:bg-white/[0.25]'
                 }`}
             >
               Reactivated
             </button>
             <button
               onClick={() => toggleContributorFilter('active')}
-              className={`px-3 md:px-4 py-2 rounded-[8px] md:rounded-[10px] text-[12px] md:text-[13px] font-semibold transition-all touch-manipulation ${
+              className={`px-3 md:px-4 py-2 rounded-[8px] md:rounded-[10px] text-[12px] md:text-[13px] font-semibold transition-all touch-manipulation min-h-[44px] ${
                 contributorFilters.active
-                  ? 'bg-[#c9983a] text-white shadow-[0_3px_12px_rgba(201,152,58,0.3)]'
-                  : 'backdrop-blur-[20px] bg-white/[0.15] border border-white/25 text-[#2d2820] hover:bg-white/[0.2]'
+                  ? 'bg-[#c9983a] text-white shadow-[0_3px_12px_rgba(201,152,58,0.3)] active:bg-[#a67c2e]'
+                  : 'backdrop-blur-[20px] bg-white/[0.15] border border-white/25 text-[#2d2820] hover:bg-white/[0.2] active:bg-white/[0.25]'
                 }`}
             >
               Active
             </button>
             <button
               onClick={() => toggleContributorFilter('churned')}
-              className={`px-3 md:px-4 py-2 rounded-[8px] md:rounded-[10px] text-[12px] md:text-[13px] font-semibold transition-all touch-manipulation ${
+              className={`px-3 md:px-4 py-2 rounded-[8px] md:rounded-[10px] text-[12px] md:text-[13px] font-semibold transition-all touch-manipulation min-h-[44px] ${
                 contributorFilters.churned
-                  ? 'bg-[#c9983a] text-white shadow-[0_3px_12px_rgba(201,152,58,0.3)]'
-                  : 'backdrop-blur-[20px] bg-white/[0.15] border border-white/25 text-[#2d2820] hover:bg-white/[0.2]'
+                  ? 'bg-[#c9983a] text-white shadow-[0_3px_12px_rgba(201,152,58,0.3)] active:bg-[#a67c2e]'
+                  : 'backdrop-blur-[20px] bg-white/[0.15] border border-white/25 text-[#2d2820] hover:bg-white/[0.2] active:bg-white/[0.25]'
                 }`}
             >
               Churned
             </button>
             <button
               onClick={() => toggleContributorFilter('prMerged')}
-              className={`px-3 md:px-4 py-2 rounded-[8px] md:rounded-[10px] text-[12px] md:text-[13px] font-semibold transition-all touch-manipulation ${
+              className={`px-3 md:px-4 py-2 rounded-[8px] md:rounded-[10px] text-[12px] md:text-[13px] font-semibold transition-all touch-manipulation min-h-[44px] ${
                 contributorFilters.prMerged
-                  ? 'bg-[#c9983a] text-white shadow-[0_3px_12px_rgba(201,152,58,0.3)]'
-                  : 'backdrop-blur-[20px] bg-white/[0.15] border border-white/25 text-[#2d2820] hover:bg-white/[0.2]'
+                  ? 'bg-[#c9983a] text-white shadow-[0_3px_12px_rgba(201,152,58,0.3)] active:bg-[#a67c2e]'
+                  : 'backdrop-blur-[20px] bg-white/[0.15] border border-white/25 text-[#2d2820] hover:bg-white/[0.2] active:bg-white/[0.25]'
                 }`}
             >
               PR merged
