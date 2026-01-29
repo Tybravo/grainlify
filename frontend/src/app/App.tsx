@@ -29,7 +29,7 @@ export default function App() {
                 element={
                   
                     <Dashboard />
-                
+              </ProtectedRoute>
                 }
               />
             </Routes>
