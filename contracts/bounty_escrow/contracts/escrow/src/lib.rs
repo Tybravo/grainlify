@@ -1877,6 +1877,9 @@ impl BountyEscrowContract {
                     EscrowStatus::Locked => {
                         total_locked += escrow.remaining_amount;
                     }
+                    EscrowStatus::PartiallyReleased => {
+                        total_locked += escrow.remaining_amount;
+                    }
                     EscrowStatus::Released => {
                         total_released += escrow.amount;
                     }
