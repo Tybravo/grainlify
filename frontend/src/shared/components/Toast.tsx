@@ -19,8 +19,8 @@ const Toast = () => {
             "order-last ml-auto cursor-pointer hover:opacity-70 transition-opacity",
           icon: "mr-1 mt-0.5 flex-shrink-0",
           description: "mt-0.5 text-sm",
-          success: `bg-gradient-to-r from-[#10b981]/25 to-[#059669]/25 border border-[#10b981]/60 shadow-[0_4px_24px_rgba(16,185,129,0.25)] text-[#047857] ${theme === "dark" ? "!text-[#6ee7b7]" : ""}`,
-          error: `bg-gradient-to-r from-[#ef4444]/25 to-[#dc2626]/25 border border-[#ef4444]/60 shadow-[0_4px_24px_rgba(239,68,68,0.25)] text-[#991b1b] ${theme === "dark" ? "!text-[#fca5a5]" : ""}`,
+          success: `!bg-transparent !border-none !shadow-none !text-inherit`,
+          error: `!bg-transparent !border-none !shadow-none !text-inherit`,
         },
       }}
     />
