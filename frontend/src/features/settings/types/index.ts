@@ -24,7 +24,7 @@ export interface BillingProfile {
 
 // Payment Method types
 export type CryptoType = 'usdc' | 'usdt' | 'xlm';
-export type EcosystemType = 'stellar' | 'ethereum' | 'polygon';
+export type EcosystemType = 'stellar' | 'ethereum' | 'polygon' | 'sui';
 
 export interface PaymentMethod {
   id: number;
