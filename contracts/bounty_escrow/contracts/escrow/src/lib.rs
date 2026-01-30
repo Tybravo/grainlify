@@ -1941,3 +1941,6 @@ impl BountyEscrowContract {
 
 #[cfg(test)]
 mod test;
+
+#[cfg(test)]
+mod pause_tests;

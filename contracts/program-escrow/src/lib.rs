@@ -139,6 +139,8 @@
 //! 6. **Token Approval**: Ensure contract has token allowance before locking funds
 
 #![no_std]
+mod pause_tests;
+
 use soroban_sdk::{
     contract, contractimpl, contracttype, symbol_short, token, vec, Address, Env, String, Symbol,
     Vec,
